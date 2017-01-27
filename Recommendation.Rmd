@@ -158,3 +158,33 @@ dim(recc_matrix)
 **Ваша очередь:**
 
 Постройте рекомендательную систему на основе схожести между пользователями, а не между фильмами (метод UBCF вместо IBCF).
+
+Построим рекомендательную модель по методу UBCF
+```{r}
+recom_model <- Recommender(data = recc_data_train, method = "UBCF",
+parameter = list(nn = 30))
+recom_model
+```
+
+```{r}
+recom_predicted <- predict(object = recom_model, newdata = recc_data_test, n = 7)
+recom_predicted
+```
+```{r}
+str(recom_predicted)
+```
+
+Слоты (доступ через символ @) 
+
+* items -- содержит индексы рекомендованных фильмов для каждого пользователя
+* itemLabels -- названия фильмов
+* ratings -- рейтинги рекомендаций
+* n -- число рекомендаций
+
+Рекомендации для первого пользователя
+```{r}
+recom_user_1 <- recom_predicted@items[[1]]
+recom_user_1
+movies_user_1 <- recom_predicted@itemLabels[recom_user_1]
+movies_user_1
+```
